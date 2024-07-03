@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Part A</title>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- DivA, div for main page - Displays the option to display the other divs -->
+    <div id="divA" class="divA">
+        <p1>DIV A - Main Page</p1>
+        <input type="radio" id="divBRadio" class="divBRadio" name="CreateBoxCar">
+        <input type="radio" id="divDRadio" class="divDRadio" name="AddFreight">
+        <input type="radio" id="divERadio" class="divERadio" name="DisplayBoxcarManifest">
+        <input type="radio" id="divFRadio" class="divFRadio" name="DisplayWarehouseManifest">
+        <input type="radio" id="divGRadio" class="divGRadio" name="DisplayAllFreight">
+    </div>
+
+    <!-- DivB, div for creating box car page -->
+    <div id="divB" class="divB" hidden>
+        <p1>DIV B - Create Box Car</p1>
+    </div>
+
+    <!-- DivC, div for displaying configured boxcar's -->
+    <div id="divC" class="divC" hidden>
+        <p1>DIV C - Configured Boxcar's</p1>
+    </div>
+
+    <!-- DivD, div for adding freight -->
+    <div id="divD" class="divD" hidden>
+        <p1>DIV D - Add Freight</p1>
+    </div>
+
+    <!-- DivE, div for displaying boxcar manifest -->
+    <div id="divE" class="divE" hidden>
+        <p1>DIV E - Boxcar Manifest</p1>
+    </div>
+
+    <!-- DivF, div for displaying warehouse manifest -->
+    <div id="divF" class="divF" hidden>
+        <p1>DIV F - Warehouse Manifest</p1>
+    </div>
+
+    <!-- DivG, div for displaying entire freight status -->
+    <div id="divG" class="divG" hidden>
+        <p1>DIV G - Freight Status</p1>
+    </div>
+</body>
+</html>
