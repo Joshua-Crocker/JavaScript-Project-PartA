@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Array to hold all box cars
     const boxCarArray = [];
+    const boxCarCargoManifestArray = [];
+    const warehouseCargoManifestArray = [];
 
     // Get all the divs required
     const divA = $("#divA");
@@ -32,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Get all the buttons required for div B (Create box car)
     const processBoxCarBtn = $("#processBoxCar");
     const divBResetFormBtn = $("#divBResetForm");
-    const divBReturnToMainPageBtn = $("#divBReturnMainPage")
+    const divBReturnToMainPageBtn = $("#divBReturnMainPage");
 
     // Get all the spans required for div B (Create box car)
     const tareWeightSpan = $("#tareWeightSpan");
@@ -43,9 +45,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalCargoWeightIntValue = $("#totalCargoWeightIntValue");
 
     // Get all the buttons required for div C (Display All Box Cars)
-    // NBOT COMPLETED 
+    // NOT COMPLETED 
     const returnToCreateBoxCar = $("#returnToCreateBoxCar");
     const divCReturnToMainPageBtn = $("#divCReturnMainPage");
+
+    // Get all the inputs required for div D (Create Freight Entry)
+    const divDSelectBoxCar = $("#divDSelectBoxCar");
+    const divDBoxCarSelected = $("#divDBoxCarSelected");
+    const divDTransportID = $("#divDTransportID");
+    const divDDescription = $("#divDDescription");
+    const divDCargoWeight = $("#divDCargoWeight");
+
+    // Get all the buttons required for div D (Create Freight Entry)
+    const processCargoBtn = $("#processCargo");
+    const divDResetFormBtn = $("#divDResetForm");
+    const divDReturnToMainPageBtn = $("#divDReturnMainPage");
+
+    // get all the spans required for div D (Create Freight Entry)
+    const divDTransportIDSpan = $("#divDTransportIdSpan");
+    const divDDescriptionSpan = $("#divDDescriptionSpan");
+    const divDCargoWeightSpan = $("#divDCargoWeightSpan");
 
     /* 
         Function that takes in a div, and hides all other divs except for the ones required.
@@ -139,8 +158,91 @@ document.addEventListener("DOMContentLoaded", () => {
         configuredBoxCarTable.append(tableBody);
         totalCargoWeightIntValue.textContent = totalCargoWeight;
     };
-    
 
+    const divDOnStart = (boxCarArray) => {
+        divDSelectBoxCar.removeAttribute("disabled");
+        boxCarArray.forEach(boxCar => {
+            let selectOption = document.createElement('option');
+            for (let key in boxCar) {
+                if (key === 'boxCarID') {
+                    selectOption.value = boxCar[key];
+                    selectOption.textContent = boxCar[key];
+                }
+            }
+            divDSelectBoxCar.appendChild(selectOption);
+        });
+    };
+
+    const divDSelectChange = (boxCarArray) => {
+        if (divDTransportID.hasAttribute('disabled') || divDDescription.hasAttribute('disabled') || divDCargoWeight.hasAttribute('disabled')) {
+            divDTransportID.removeAttribute('disabled');
+            divDDescription.removeAttribute('disabled');
+            divDCargoWeight.removeAttribute('disabled');
+        }
+        divDSelectBoxCar.setAttribute('disabled', 'true');
+        let selectedOption = divDSelectBoxCar.value;
+
+        boxCarArray.forEach(boxCar => {
+            for (let key in boxCar) {
+                if (key === 'boxCarID') {
+                    if (boxCar[key] == selectedOption) {
+                        console.log(selectedOption);
+                        divDBoxCarSelected.textContent = selectedOption;
+                        divDBoxCarSelected.value = selectedOption;
+                    }
+                }
+            }
+        });
+    };
+
+    /*
+        Function
+    */
+
+    const processCargo = (boxCarCargoManifestArray, boxCarArray, warehouseCargoManifestArray) => {
+        // Validate input fields
+        if (divDTransportID.value === "") {
+            divDTransportIDSpan.textContent = "Must enter a transport ID";
+        } else if (divDDescription.value === "") {
+            divDDescriptionSpan.textContent = "Must enter a Description";
+        } else if (isNaN(divDCargoWeight.value) || parseInt(divDCargoWeight.value) <= 0) {
+            divDCargoWeightSpan.textContent = "Cargo weight must be a number and > 0";
+        } else {
+            const freightEntry = {
+                boxCarID: divDBoxCarSelected.value,
+                transportID: divDTransportID.value,
+                description: divDDescription.value,
+                cargoWeight: parseInt(divDCargoWeight.value)
+            };
+        
+            // Find the box car corresponding to the selected boxCarID
+            const selectedBoxCar = boxCarArray.find(boxCar => boxCar.boxCarID === divDBoxCarSelected.value);
+        
+            if (!selectedBoxCar) {
+                console.error("Selected box car not found.");
+                return;
+            }
+        
+            // Calculate new gross weight if this cargo were added
+            const newGrossWeight = selectedBoxCar.tareWeight + selectedBoxCar.cargoWeight + freightEntry.cargoWeight;
+        
+            if (newGrossWeight <= selectedBoxCar.maxGrossWeight) {
+                // Add cargo weight to the selected box car
+                selectedBoxCar.cargoWeight += freightEntry.cargoWeight;
+                selectedBoxCar.grossWeight = newGrossWeight;
+                boxCarCargoManifestArray.push(freightEntry);
+            } else {
+                // If exceeds max gross weight, add to warehouseCargoManifestArray
+                warehouseCargoManifestArray.push(freightEntry);
+            }
+            // Update display
+            displayConfiguredBoxCars(boxCarArray);
+            console.log(boxCarCargoManifestArray);
+            console.log(boxCarArray);
+            console.log(warehouseCargoManifestArray);
+        }
+    };
+    
     /*
         Function which passes in "inputsToReset" and "inputDefaultValue"
         This is a master function to reset forms.
@@ -158,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Attach event listeners to radio buttons
     radioB.addEventListener("click", () => changeDiv(divB));
     radioD.addEventListener("click", () => changeDiv(divD));
+    radioD.addEventListener("click", () => divDOnStart(boxCarArray));
     radioE.addEventListener("click", () => changeDiv(divE));
     radioF.addEventListener("click", () => changeDiv(divF));
     radioG.addEventListener("click", () => changeDiv(divG));
@@ -167,4 +270,9 @@ document.addEventListener("DOMContentLoaded", () => {
     divBResetFormBtn.addEventListener("click", () => resetForm([boxCarIDInput, tareWeightInput, maxGrossWeightInput], [" ", 0, 0]));
     divBReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
     divCReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
+    divDReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
+    processCargoBtn.addEventListener("click", () => processCargo(boxCarCargoManifestArray, boxCarArray, warehouseCargoManifestArray));
+
+    // Attach event listeners to select elements
+    divDSelectBoxCar.addEventListener("change", () => divDSelectChange(boxCarArray));
 });

@@ -89,10 +89,16 @@
             <div>
                 <label for=""></label>
                 <input id="divDBoxCarSelected" type="text" readonly>
-                <input id="divDTransportID" type="text">
-                <input id="divDDescription" type="text">
-                <input id="divDCargoWeight" type="text">
+                <input id="divDTransportID" type="text" disabled>
+                <span id="divDTransportIDSpan"></span>
+                <input id="divDDescription" type="text" disabled>
+                <span id="divDDescriptionSpan"></span>
+                <input id="divDCargoWeight" type="text" disabled>
+                <span id="divDCargoWeightSpan"></span>
+                <button id="processCargo">Process Cargo</button>
+                <button id="divDResetForm">Reset Form</button>
             </div>
+            <button id="divDReturnMainPage" class="divDReturnMainPage" name="divDReturnMainPage">Return to Main Page</button>
         </div>
 
         <!-- DivE, div for displaying boxcar manifest -->
