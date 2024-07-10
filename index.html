@@ -1,6 +1,3 @@
-<!-- RETURN TO CREATE BOX CAR NOT COMPLETED -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,10 +12,15 @@
         <!-- DivA, div for main page - Displays the option to display the other divs -->
         <div id="divA" class="divA">
             <p1>DIV A - Main Page</p1>
+            <label for="divBRadio">Create Boxcar</label>
             <input type="radio" id="divBRadio" class="divBRadio" name="CreateBoxCar">
+            <label for="divDRadio">Add Freight</label>
             <input type="radio" id="divDRadio" class="divDRadio" name="AddFreight">
-            <input type="radio" id="divERadio" class="divERadio" name="DisplayBoxcarManifest">
+            <label for="divCRadio">Boxcar Data</label>
+            <input type="radio" id="divCRadio" class="divCRadio" name="DisplayBoxcarManifest">
+            <label for="divFRadio">Warehouse Data</label>
             <input type="radio" id="divFRadio" class="divFRadio" name="DisplayWarehouseManifest">
+            <label for="divGRadio">All Freight Status</label>
             <input type="radio" id="divGRadio" class="divGRadio" name="DisplayAllFreight">
         </div>
 
@@ -28,14 +30,15 @@
             <!-- Text Inputs for DivB -->
             <label for="boxcarID">Box Car ID</label>
             <input type="text" id="boxcarID" class="boxcarID" name="boxcarID" placeholder="BX123" value="">
+            <span id="boxcarIDSpan"></span>
 
             <label for="tareWeight">TARE Weight</label>
             <input type="text" id="tareWeight" class="tareWeight" name="tareWeight" value="0">
-            <span id="tareWeightSpan">****</span>
+            <span id="tareWeightSpan"></span>
 
             <label for="maxGrossWeight">Max Gross Weight</label>
             <input type="text" id="maxGrossWeight" class="maxGrossWeight" name="maxGrossWeight" value="0">
-            <span id="maxGrossWeightSpan">****</span>
+            <span id="maxGrossWeightSpan"></span>
 
             <label for="cargoWeight">Cargo Weight</label>
             <input type="text" id="cargoWeight" class="cargoWeight" name="cargoWeight" value="0" readonly>
@@ -83,16 +86,19 @@
             <div>
                 <h3>Box Car ID</h3>
                 <select disabled id="divDSelectBoxCar">
-    
+                    <option>select</option>
                 </select>
             </div>
             <div>
-                <label for=""></label>
+                <label for="divDBoxCarSelected">Selected Boxcar</label>
                 <input id="divDBoxCarSelected" type="text" readonly>
+                <label for="divDTransportID">Transport ID</label>
                 <input id="divDTransportID" type="text" disabled>
                 <span id="divDTransportIDSpan"></span>
+                <label for="divDDescription">Description</label>
                 <input id="divDDescription" type="text" disabled>
                 <span id="divDDescriptionSpan"></span>
+                <label for="divDCargoWeight">Cargo Weight</label>
                 <input id="divDCargoWeight" type="text" disabled>
                 <span id="divDCargoWeightSpan"></span>
                 <button id="processCargo">Process Cargo</button>
@@ -152,6 +158,7 @@
                         </tr>
                     </tfoot>
                 </table>
+                <button id="divFReturnToCreateFreightEntry" class="divFReturnToCreateFreightEntry" name="divFReturnToCreateFreightEntry">Return to Create Freight Entry</button>
                 <button id="divFReturnMainPage" class="divFReturnMainPage" name="divFReturnMainPage">Return to Main Page</button>
             </div>
         </div>
