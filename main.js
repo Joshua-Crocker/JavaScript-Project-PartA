@@ -70,7 +70,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const boxcarManifestTable = $("#boxCarManifest");
 
     // Get all the buttons for div E (Boxcar Manifest)
+    const divEReturnToMainPageBtn = $("#divEReturnMainPage");
 
+
+    // Get the table for div F (Warehouse Manifest)
+    const warehouseManifestTable = $("#warehouseManifest");
+
+    // Get all the buttons for div F (Warehouse Manifest)
+    const divFReturnToMainPageBtn = $("#divFReturnMainPage");
+
+    // Get the table for div G (Complete Freight Status)
+    const completeFreightStatusTable = $("#completeFreightStatus");
+
+    // Get all the buttons for div G (Complete Freight Status)
+    const divGReturnToMainPageBtn = $("#divGReturnMainPage");
 
     /* 
         Function that takes in a div, and hides all other divs except for the ones required.
@@ -237,17 +250,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectedBoxCar.cargoWeight += freightEntry.cargoWeight;
                 selectedBoxCar.grossWeight = newGrossWeight;
                 boxCarCargoManifestArray.push(freightEntry);
+                divF.hidden = true;
                 divE.hidden = false;
                 displayBoxCarManifest(boxCarCargoManifestArray);
             } else {
                 // If exceeds max gross weight, add to warehouseCargoManifestArray
                 warehouseCargoManifestArray.push(freightEntry);
+                console.log(warehouseCargoManifestArray);
+                divF.hidden = false;
+                divE.hidden = true;
+                displayWarehouseManifest(warehouseCargoManifestArray);
             }
             // Update display
             displayConfiguredBoxCars(boxCarArray);
-            console.log(boxCarCargoManifestArray);
-            console.log(boxCarArray);
-            console.log(warehouseCargoManifestArray);
         }
     };
 
@@ -283,6 +298,85 @@ document.addEventListener("DOMContentLoaded", () => {
         boxcarManifestTable.append(tableBody);
         $("#divETotalCargoWeightIntValue").textContent = totalCargoWeight;
     }
+
+    const displayWarehouseManifest = (warehouseCargoManifestArray) => {
+        // Check if tbody exists and remove it
+        let oldTbody = warehouseManifestTable.querySelector('tbody');
+        if (oldTbody) {
+            warehouseManifestTable.removeChild(oldTbody);
+            $("#divFTotalCargoWeightIntValue").textContent = "0";
+        }
+    
+        let tableBody = document.createElement('tbody');
+        let totalCargoWeight = 0;
+    
+        warehouseCargoManifestArray.forEach(freightEntry => {
+            let tableRow = document.createElement('tr');
+            for (let key in freightEntry) {
+                if (key === 'boxCarID') {
+                    continue;
+                }
+                let tableCell = document.createElement('td');
+                tableCell.textContent = freightEntry[key];
+                tableRow.append(tableCell);
+    
+                // Check if the key is 'cargoWeight' and add to totalCargoWeight
+                if (key === 'cargoWeight') {
+                    totalCargoWeight += parseFloat(freightEntry[key]);
+                }
+            }
+            tableBody.append(tableRow);
+        });
+    
+        warehouseManifestTable.append(tableBody);
+        $("#divFTotalCargoWeightIntValue").textContent = totalCargoWeight;
+    };
+
+    const displayCompleteFreightStatus = (boxCarCargoManifestArray, warehouseCargoManifestArray) => {
+        // Check if tbody exists and remove ot
+        let oldTbody = completeFreightStatusTable.querySelector('tbody');
+        if (oldTbody) {
+            completeFreightStatusTable.removeChild('tbody');
+        }
+
+        let tableBody = document.createElement('tbody');
+
+        boxCarCargoManifestArray.forEach(boxCar => {
+            let boxCarID = "";
+            let tableRow = document.createElement('tr');
+            for (let key in boxCar) {
+                if (key === 'boxCarID') {
+                    boxCarID = boxCar[key];
+                    continue;
+                }
+                let tableCell = document.createElement('td');
+                tableCell.textContent = boxCar[key];
+                tableRow.append(tableCell);
+            }
+            let tableCellStatus = document.createElement('td');
+            tableCellStatus.textContent = boxCarID;
+            tableRow.append(tableCellStatus);
+            tableBody.append(tableRow);
+        });
+
+        warehouseCargoManifestArray.forEach(freightEntry => {
+            let tableRow = document.createElement('tr');
+            for (let key in freightEntry) {
+                if (key === 'boxCarID') {
+                    continue;
+                }
+                let tableCell = document.createElement('td');
+                tableCell.textContent = freightEntry[key];
+                tableRow.append(tableCell);
+            }
+            let tableCellStatus = document.createElement('td');
+            tableCellStatus.textContent = 'Warehouse';
+            tableRow.append(tableCellStatus);
+            tableBody.append(tableRow);
+        });
+
+        completeFreightStatusTable.append(tableBody);
+    }
     
     /*
         Function which passes in "inputsToReset" and "inputDefaultValue"
@@ -305,6 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
     radioE.addEventListener("click", () => changeDiv(divE));
     radioF.addEventListener("click", () => changeDiv(divF));
     radioG.addEventListener("click", () => changeDiv(divG));
+    radioG.addEventListener("click", () => displayCompleteFreightStatus(boxCarCargoManifestArray, warehouseCargoManifestArray));
 
     // Attach event listeners to buttons
     processBoxCarBtn.addEventListener("click", () => processBoxCar(boxCarArray));
@@ -312,6 +407,9 @@ document.addEventListener("DOMContentLoaded", () => {
     divBReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
     divCReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
     divDReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
+    divEReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
+    divFReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
+    divGReturnToMainPageBtn.addEventListener("click", () => changeDiv(divA));
     processCargoBtn.addEventListener("click", () => processCargo(boxCarCargoManifestArray, boxCarArray, warehouseCargoManifestArray));
 
     // Attach event listeners to select elements

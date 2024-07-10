@@ -107,36 +107,73 @@
 
             <div>
                 <!-- Table for displaying box cars -->
-            <table id="boxCarManifest">
-                <thead>
-                    <tr>
-                        <th>Transport ID</th>
-                        <th>Description</th>
-                        <th>Weight</th>
-                    </tr>
-                </thead>
+                <table id="boxCarManifest">
+                    <thead>
+                        <tr>
+                            <th>Transport ID</th>
+                            <th>Description</th>
+                            <th>Weight</th>
+                        </tr>
+                    </thead>
 
-                <tfoot>
-                    <tr>
-                        <td colspan="3"></td>
-                        <td>Total Cargo Weight:</td>
-                        <td id="divETotalCargoWeightIntValue">0</td>
-                    </tr>
-                </tfoot>
-            </table>
-            <button id="returnToCreateFreightEntry" class="returnToCreateFreightEntry" name="returnToCreateFreightEntry">Return to Create Freight Entry</button>
-            <button id="divEReturnMainPage" class="divEReturnMainPage" name="divCReturnMainPage">Return to Main Page</button>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td>Total Cargo Weight:</td>
+                            <td id="divETotalCargoWeightIntValue">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <button id="returnToCreateFreightEntry" class="returnToCreateFreightEntry" name="returnToCreateFreightEntry">Return to Create Freight Entry</button>
+                <button id="divEReturnMainPage" class="divEReturnMainPage" name="divCReturnMainPage">Return to Main Page</button>
             </div>
         </div>
 
         <!-- DivF, div for displaying warehouse manifest -->
         <div id="divF" class="divF" hidden>
             <p1>DIV F - Warehouse Manifest</p1>
+
+            <div>
+                <!-- Table for displaying box cars -->
+                <table id="warehouseManifest">
+                    <thead>
+                        <tr>
+                            <th>Transport ID</th>
+                            <th>Description</th>
+                            <th>Weight</th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td>Total Cargo Weight:</td>
+                            <td id="divFTotalCargoWeightIntValue">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <button id="divFReturnMainPage" class="divFReturnMainPage" name="divFReturnMainPage">Return to Main Page</button>
+            </div>
         </div>
 
         <!-- DivG, div for displaying entire freight status -->
         <div id="divG" class="divG" hidden>
             <p1>DIV G - Freight Status</p1>
+
+            <div>
+                <!-- Table for displaying box cars -->
+                <table id="completeFreightStatus">
+                    <thead>
+                        <tr>
+                            <th>Transport ID</th>
+                            <th>Description</th>
+                            <th>Weight</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                </table>
+                <button id="divGReturnMainPage" class="divGReturnMainPage" name="divGReturnMainPage">Return to Main Page</button>
+            </div>
         </div>
     </div>
 </body>
