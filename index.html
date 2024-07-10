@@ -104,6 +104,29 @@
         <!-- DivE, div for displaying boxcar manifest -->
         <div id="divE" class="divE" hidden>
             <p1>DIV E - Boxcar Manifest</p1>
+
+            <div>
+                <!-- Table for displaying box cars -->
+            <table id="boxCarManifest">
+                <thead>
+                    <tr>
+                        <th>Transport ID</th>
+                        <th>Description</th>
+                        <th>Weight</th>
+                    </tr>
+                </thead>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>Total Cargo Weight:</td>
+                        <td id="divETotalCargoWeightIntValue">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button id="returnToCreateFreightEntry" class="returnToCreateFreightEntry" name="returnToCreateFreightEntry">Return to Create Freight Entry</button>
+            <button id="divEReturnMainPage" class="divEReturnMainPage" name="divCReturnMainPage">Return to Main Page</button>
+            </div>
         </div>
 
         <!-- DivF, div for displaying warehouse manifest -->

@@ -66,6 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const divDDescriptionSpan = $("#divDDescriptionSpan");
     const divDCargoWeightSpan = $("#divDCargoWeightSpan");
 
+    // Get the table for div E (Boxcar Manifest)
+    const boxcarManifestTable = $("#boxCarManifest");
+
+    // Get all the buttons for div E (Boxcar Manifest)
+
+
     /* 
         Function that takes in a div, and hides all other divs except for the ones required.
 
@@ -231,6 +237,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectedBoxCar.cargoWeight += freightEntry.cargoWeight;
                 selectedBoxCar.grossWeight = newGrossWeight;
                 boxCarCargoManifestArray.push(freightEntry);
+                divE.hidden = false;
+                displayBoxCarManifest(boxCarCargoManifestArray);
             } else {
                 // If exceeds max gross weight, add to warehouseCargoManifestArray
                 warehouseCargoManifestArray.push(freightEntry);
@@ -242,6 +250,39 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(warehouseCargoManifestArray);
         }
     };
+
+    const displayBoxCarManifest = (boxCarCargoManifestArray) => {
+        // Check if tbody exists and remove it
+        let oldTbody = boxcarManifestTable.querySelector('tbody');
+        if (oldTbody) {
+            boxcarManifestTable.removeChild(oldTbody);
+            $("#divETotalCargoWeightIntValue").textContent = "0";
+        }
+    
+        let tableBody = document.createElement('tbody');
+        let totalCargoWeight = 0;
+    
+        boxCarCargoManifestArray.forEach(freightEntry => {
+            let tableRow = document.createElement('tr');
+            for (let key in freightEntry) {
+                if (key === 'boxCarID') {
+                    continue;
+                }
+                let tableCell = document.createElement('td');
+                tableCell.textContent = freightEntry[key];
+                tableRow.append(tableCell);
+    
+                // Check if the key is 'cargoWeight' and add to totalCargoWeight
+                if (key === 'cargoWeight') {
+                    totalCargoWeight += parseFloat(freightEntry[key]);
+                }
+            }
+            tableBody.append(tableRow);
+        });
+    
+        boxcarManifestTable.append(tableBody);
+        $("#divETotalCargoWeightIntValue").textContent = totalCargoWeight;
+    }
     
     /*
         Function which passes in "inputsToReset" and "inputDefaultValue"
